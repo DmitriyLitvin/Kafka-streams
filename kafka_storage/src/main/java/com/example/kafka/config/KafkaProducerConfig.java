@@ -1,0 +1,111 @@
+package com.example.kafka.config;
+
+import com.example.kafka.broker.message.DiscountMessage;
+import com.example.kafka.broker.message.OrderMessage;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+//@Component
+//public class KafkaProducerConfig {
+//
+//    @Value(value = "${kafka.server}")
+//    private String kafkaServer;
+//
+//    private KafkaProperties kafkaProperties = new KafkaProperties();
+//
+//    public DefaultKafkaProducerFactory props() {
+//        var props = kafkaProperties.buildConsumerProperties();
+//        props.put(
+//                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+//                kafkaServer);
+//        props.put(
+//                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+//                StringSerializer.class);
+//        props.put(
+//                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+//                JsonSerializer.class);
+//
+//        return new DefaultKafkaProducerFactory<>(props);
+//    }
+//
+//    @Bean
+//    public KafkaTemplate<String, OrderMessage> orderKafkaTemplate() {
+//        return new KafkaTemplate<>(props());
+//    }
+//
+//    @Bean
+//    public KafkaTemplate<String, DiscountMessage> discountKafkaTemplate() {
+//        return new KafkaTemplate<>(props());
+//    }
+//
+//    @Bean
+//    public KafkaTemplate<String, PromotionMessage> promotionKafkaTemplate() {
+//        return new KafkaTemplate<>(props());
+//    }
+//}
+@Configuration
+public class KafkaProducerConfig {
+
+    @Value("${kafka.server}")
+    private String kafkaServer;
+
+
+    @Bean
+    public Map<String, Object> producerConfigs() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.CLIENT_ID_CONFIG, "client");
+        return props;
+    }
+
+    @Bean
+    public ProducerFactory<String, OrderMessage> producerOrderMessageFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, OrderMessage> kafkaOrderMessageTemplate() {
+        KafkaTemplate<String, OrderMessage> template = new KafkaTemplate<>(producerOrderMessageFactory());
+        template.setMessageConverter(new StringJsonMessageConverter());
+        return template;
+    }
+
+    @Bean
+    public ProducerFactory<String, PromotionMessage> producerPromotionMessageFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, PromotionMessage> kafkaTemplate() {
+        KafkaTemplate<String, PromotionMessage> template = new KafkaTemplate<>(producerPromotionMessageFactory());
+        template.setMessageConverter(new StringJsonMessageConverter());
+        return template;
+    }
+
+    @Bean
+    public ProducerFactory<String, DiscountMessage> producerDiscountMessageFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, DiscountMessage> discountMessageTemplate() {
+        KafkaTemplate<String, DiscountMessage> template = new KafkaTemplate<>(producerDiscountMessageFactory());
+        template.setMessageConverter(new StringJsonMessageConverter());
+        return template;
+    }
+
+
+}

@@ -1,0 +1,81 @@
+package com.example.kafka.config;
+
+import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.TopicBuilder;
+
+@Configuration
+public class KafkaConfig {
+
+	@Bean
+	public NewTopic topicOrder() {
+		return TopicBuilder.name("t.commodity.order").partitions(2).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic topicOrderReply() {
+		return TopicBuilder.name("t.commodity.order-reply").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic topicFeedbackRating() {
+		return TopicBuilder.name("t.commodity.feedback-rating").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic topicFlashVote() {
+		return TopicBuilder.name("t.commodity.flashsale.vote").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic topicFlashVoteUser() {
+		return TopicBuilder.name("t.commodity.flashsale.vote-user-item").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic topicFlashVoteOne() {
+		return TopicBuilder.name("t.commodity.flashsale.vote-one-item").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic topicInventory() {
+		return TopicBuilder.name("t.commodity.inventory").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic topicInventoryTotal() {
+		return TopicBuilder.name("t.commodity.inventory-total-one").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic topicInventoryThree() {
+		return TopicBuilder.name("t.commodity.inventory-three").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic onlineOrder() {
+		return TopicBuilder.name("t.commodity.online-order").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic onlinePayment() {
+		return TopicBuilder.name("t.commodity.online-payment").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic onlineOrderPayment() {
+		return TopicBuilder.name("t.commodity.join-order-payment-one").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic onlineOrderPaymentTwo() {
+		return TopicBuilder.name("t.commodity.join-order-payment-two").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic onlineOrderPaymentThree() {
+		return TopicBuilder.name("t.commodity.join-order-payment-three").partitions(1).replicas(1).build();
+	}
+
+}
