@@ -29,10 +29,10 @@ public class OrderPaymentStream {
         var paymentStream = streamsBuilder.stream("t.commodity.online-payment",
                 Consumed.with(stringSerde, paymentSerde, new OnlinePaymentTimestampExtractor(), null));
 
+
         orderStream.join(paymentStream, this::joinerOrderPayment, JoinWindows.of(Duration.ofHours(1)),
                 StreamJoined.with(stringSerde, orderSerde, paymentSerde))
-                .through("t.commodity.join-order-payment-one", Produced.with(stringSerde, orderPaymentSerde))
-        .print(Printed.toSysOut());
+                .through("t.commodity.join-order-payment-one", Produced.with(stringSerde, orderPaymentSerde)).print(Printed.toSysOut());
 
 
         return orderStream;

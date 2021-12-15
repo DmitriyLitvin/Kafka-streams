@@ -20,7 +20,7 @@ public class KafkaStreamConfig {
         var props = new HashMap<String, Object>();
 
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "kafka-stream");
-        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.99.100:9092");
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());;
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.example.kafka.broker.message.*");

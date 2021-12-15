@@ -26,7 +26,7 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, "client");
+        //props.put(ProducerConfig.CLIENT_ID_CONFIG, "client");
         return props;
     }
 
@@ -126,5 +126,52 @@ public class KafkaProducerConfig {
         return template;
     }
 
+    @Bean
+    public ProducerFactory<String, WebColorVoteMessage> webColorVoteMessageFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, WebColorVoteMessage> webColorVoteMessageTemplate() {
+        KafkaTemplate<String, WebColorVoteMessage> template = new KafkaTemplate<>(webColorVoteMessageFactory());
+        template.setMessageConverter(new StringJsonMessageConverter());
+        return template;
+    }
+
+    @Bean
+    public ProducerFactory<String, WebLayoutVoteMessage> webLayoutVoteMessageFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, WebLayoutVoteMessage> webLayoutVoteMessageTemplate() {
+        KafkaTemplate<String, WebLayoutVoteMessage> template = new KafkaTemplate<>(webLayoutVoteMessageFactory());
+        template.setMessageConverter(new StringJsonMessageConverter());
+        return template;
+    }
+
+    @Bean
+    public ProducerFactory<String, PremiumPurchaseMessage> premiumPurchaseMessageFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, PremiumPurchaseMessage> premiumPurchaseMessageTemplate() {
+        KafkaTemplate<String, PremiumPurchaseMessage> template = new KafkaTemplate<>(premiumPurchaseMessageFactory());
+        template.setMessageConverter(new StringJsonMessageConverter());
+        return template;
+    }
+
+    @Bean
+    public ProducerFactory<String, PremiumUserMessage> premiumUserMessageFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, PremiumUserMessage> premiumUserMessageTemplate() {
+        KafkaTemplate<String, PremiumUserMessage> template = new KafkaTemplate<>(premiumUserMessageFactory());
+        template.setMessageConverter(new StringJsonMessageConverter());
+        return template;
+    }
 
 }

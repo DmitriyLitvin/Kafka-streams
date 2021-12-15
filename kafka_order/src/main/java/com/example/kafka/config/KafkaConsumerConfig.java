@@ -12,6 +12,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.converter.BatchMessagingMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,17 @@ public class KafkaConsumerConfig {
 
     @Value("${kafka.server}")
     private String kafkaServer;
+
+    @Bean
+    public Map<String, Object> consumerConfigs() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.example.kafka.broker.message");
+        return props;
+    }
 
 
     @Bean
@@ -183,10 +195,41 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
+    @Bean
+    public KafkaListenerContainerFactory<?> batchOrderReplyMessageFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, OrderReplyMessage> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerOrderReplyMessageFactory());
+        factory.setBatchListener(true);
+        factory.setMessageConverter(new BatchMessagingMessageConverter(converter()));
+        return factory;
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<?> singleOrderReplyMessageFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, OrderReplyMessage> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerOrderReplyMessageFactory());
+        factory.setBatchListener(false);
+        factory.setMessageConverter(new StringJsonMessageConverter());
+        return factory;
+    }
+
 
     @Bean
     public ConsumerFactory<String, OrderMessage> consumerOrderMessageFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+        Map<String, Object> orderConfig = consumerConfigs();
+        return new DefaultKafkaConsumerFactory<>(orderConfig);
+    }
+
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, OrderReplyMessage>
+    orderReplyKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, OrderReplyMessage> factory
+                = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerOrderReplyMessageFactory());
+        return factory;
     }
 
     @Bean
@@ -224,15 +267,12 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
 
+
     @Bean
-    public Map<String, Object> consumerConfigs() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "consumer");
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
-        return props;
+    public ConsumerFactory<String, OrderReplyMessage> consumerOrderReplyMessageFactory() {
+        Map<String, Object> orderConfig = consumerConfigs();
+        orderConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "order-reply");
+        return new DefaultKafkaConsumerFactory<>(orderConfig);
     }
 
     @Bean

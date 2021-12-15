@@ -9,26 +9,6 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaConfig {
 
 	@Bean
-	public NewTopic topicOrder() {
-		return TopicBuilder.name("t.commodity.order").partitions(2).replicas(1).build();
-	}
-
-	@Bean
-	public NewTopic topicOrderReply() {
-		return TopicBuilder.name("t.commodity.order-reply").partitions(1).replicas(1).build();
-	}
-
-	@Bean
-	public NewTopic topicFeedbackRating() {
-		return TopicBuilder.name("t.commodity.feedback-rating").partitions(1).replicas(1).build();
-	}
-
-	@Bean
-	public NewTopic topicFlashVote() {
-		return TopicBuilder.name("t.commodity.flashsale.vote").partitions(1).replicas(1).build();
-	}
-
-	@Bean
 	public NewTopic topicFlashVoteUser() {
 		return TopicBuilder.name("t.commodity.flashsale.vote-user-item").partitions(1).replicas(1).build();
 	}
@@ -39,11 +19,6 @@ public class KafkaConfig {
 	}
 
 	@Bean
-	public NewTopic topicInventory() {
-		return TopicBuilder.name("t.commodity.inventory").partitions(1).replicas(1).build();
-	}
-
-	@Bean
 	public NewTopic topicInventoryTotal() {
 		return TopicBuilder.name("t.commodity.inventory-total-one").partitions(1).replicas(1).build();
 	}
@@ -51,16 +26,6 @@ public class KafkaConfig {
 	@Bean
 	public NewTopic topicInventoryThree() {
 		return TopicBuilder.name("t.commodity.inventory-three").partitions(1).replicas(1).build();
-	}
-
-	@Bean
-	public NewTopic onlineOrder() {
-		return TopicBuilder.name("t.commodity.online-order").partitions(1).replicas(1).build();
-	}
-
-	@Bean
-	public NewTopic onlinePayment() {
-		return TopicBuilder.name("t.commodity.online-payment").partitions(1).replicas(1).build();
 	}
 
 	@Bean
@@ -78,4 +43,68 @@ public class KafkaConfig {
 		return TopicBuilder.name("t.commodity.join-order-payment-three").partitions(1).replicas(1).build();
 	}
 
+	@Bean
+	public NewTopic voteOneUsernameColor() {
+		return TopicBuilder.name("t.commodity.web.vote-one-username-color").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic voteOneUsernameLayout() {
+		return TopicBuilder.name("t.commodity.web.vote-one-username-layout").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic voteOneStream() {
+		return TopicBuilder.name("t.commodity.web.vote-one-stream").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic voteTwoUsernameColor() {
+		return TopicBuilder.name("t.commodity.web.vote-two-username-color").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic voteTwoUsernameLayout() {
+		return TopicBuilder.name("t.commodity.web.vote-two-username-layout").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic voteTwoStream() {
+		return TopicBuilder.name("t.commodity.web.vote-two-stream").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic voteThreeUsernameColor() {
+		return TopicBuilder.name("t.commodity.web.vote-three-username-color").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic voteThreeUsernameLayout() {
+		return TopicBuilder.name("t.commodity.web.vote-three-username-layout").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic voteThree() {
+		return TopicBuilder.name("t.commodity.web.vote-three-stream").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic offerOne() {
+		return TopicBuilder.name("t.commodity.offer-one").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic offerTwo() {
+		return TopicBuilder.name("t.commodity.offer-two").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic offerThree() {
+		return TopicBuilder.name("t.commodity.offer-three").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic premiumOfferFiltered() {
+		return TopicBuilder.name("t.commodity.premium.user.filtered").partitions(1).replicas(1).build();
+	}
 }

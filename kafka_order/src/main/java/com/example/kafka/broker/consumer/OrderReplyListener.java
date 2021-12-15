@@ -12,7 +12,7 @@ public class OrderReplyListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OrderReplyListener.class);
 
-	@KafkaListener(groupId = "order-reply",topics = "t.commodity.order-reply")
+	@KafkaListener(groupId = "order-reply",topics = "t.commodity.order-reply", containerFactory = "orderReplyKafkaListenerContainerFactory")
 	public void listen(OrderReplyMessage message) {
 		LOG.info("Reply message received : {}", message);
 	}

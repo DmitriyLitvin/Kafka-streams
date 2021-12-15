@@ -21,7 +21,7 @@ public class OrderApi {
 
 	@PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest request) {
-		// 1. save order using service
+		// 1. save order using consumer
 		String orderNumber = service.saveOrder(request);
 
 		// 2. create response

@@ -23,7 +23,6 @@ public class KafkaConfig {
 		return TopicBuilder.name("t.commodity.feedback-rating").partitions(1).replicas(1).build();
 	}
 
-
 	@Bean
 	public NewTopic topicFlashsale() {
 		return TopicBuilder.name("t.commodity.flashsale.vote").partitions(1).replicas(1).build();
@@ -45,7 +44,23 @@ public class KafkaConfig {
 	}
 
 	@Bean
-	public NewTopic onlineOrderPayment() {
-		return TopicBuilder.name("t.commodity.join-order-payment-one").partitions(1).replicas(1).build();
+	public NewTopic voteLayout() {
+		return TopicBuilder.name("t.commodity.web.vote-layout").partitions(1).replicas(1).build();
 	}
+
+	@Bean
+	public NewTopic voteColor() {
+		return TopicBuilder.name("t.commodity.web.vote-color").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic premiumPurchase() {
+		return TopicBuilder.name("t.commodity.premium-purchase").partitions(1).replicas(1).build();
+	}
+
+	@Bean
+	public NewTopic premiumUser() {
+		return TopicBuilder.name("t.commodity.premium-user").partitions(1).replicas(1).build();
+	}
+
 }

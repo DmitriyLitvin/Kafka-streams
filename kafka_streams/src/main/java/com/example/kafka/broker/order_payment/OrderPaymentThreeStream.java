@@ -17,7 +17,7 @@ import java.time.Duration;
 @Configuration
 public class OrderPaymentThreeStream {
 
-    @Bean
+    //@Bean
     public KStream<String, OnlineOrderMessage> kStreamOrderPayment(StreamsBuilder streamsBuilder) {
         var stringSerde = Serdes.String();
         var orderSerde = new JsonSerde<>(OnlineOrderMessage.class);
